@@ -1,27 +1,28 @@
+#
+# This is free software, lisence use MIT.
+# 
+# Copyright (C) 2019 P3TERX <https://p3terx.com>
+# Copyright (C) 2020 KFERMercer <KFER.Mercer@gmail.com>
 # 
 # <https://github.com/KFERMercer/OpenWrt-CI>
 #
-# Copyright (C) 2019 P3TERX
-#
-# Copyright (C) 2020 KFERMercer
-#
+
 name: OpenWrt-CI
 
 on:
+#  push:
+#    branches: 
+#      - master
+  watch:
+    types: [started]
   schedule:
-    - cron: 0 20 * * *
-  release:
-    types: [published]
-    
-permissions:
-  contents: read
+    - cron: 20 6 6,20 * *
+#  release:
+#    types: [published]
 
 jobs:
 
   build_openwrt:
-
-    permissions:
-      contents: write # for release creation
 
     name: Build OpenWrt firmware
 
@@ -44,26 +45,144 @@ jobs:
           sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
           sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* adoptopenjdk* mysql* php* mongodb* dotnet* moby* snapd* || true
           sudo -E apt-get update
-          sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf swig
+          sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf swig libtinfo5
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
-
+          # sudo mkdir -p -m 777 /mnt/openwrt/bin /mnt/openwrt/build_dir/host /mnt/openwrt/build_dir/hostpkg /mnt/openwrt/dl /mnt/openwrt/feeds /mnt/openwrt/staging_dir
+          # ln -s /mnt/openwrt/bin ./bin
+          # mkdir -p ./build_dir
+          # ln -s -f /mnt/openwrt/build_dir/host ./build_dir/host
+          # ln -s -f /mnt/openwrt/build_dir/hostpkg ./build_dir/hostpkg
+          # ln -s /mnt/openwrt/dl ./dl
+          # ln -s /mnt/openwrt/feeds ./feeds
+          # ln -s /mnt/openwrt/staging_dir ./staging_dir
           df -h
-
       - name: Update feeds
         run: |
-          sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
+          echo 'src-git helloworld https://github.com/fw876/helloworld' >> ./feeds.conf.default
+          echo 'src-git small8 https://github.com/kenzok8/small-package' >> ./feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
-
       - name: Generate configuration file
-        run: make defconfig
-
+        run: |
+          rm -f ./.config*
+          touch ./.config
+          #
+          # 在 cat >> .config <<EOF 到 EOF 之间粘贴你的编译配置, 需注意缩进关系
+          # 例如:
+          cat >> .config <<EOF
+          CONFIG_TARGET_x86=y
+          CONFIG_TARGET_x86_64=y
+          CONFIG_TARGET_x86_64_DEVICE_generic=y
+          CONFIG_PACKAGE_adguardhome=m
+          CONFIG_PACKAGE_bash=y
+          CONFIG_PACKAGE_boost=y
+          CONFIG_PACKAGE_boost-date_time=y
+          CONFIG_PACKAGE_boost-program_options=y
+          CONFIG_PACKAGE_boost-system=y
+          CONFIG_PACKAGE_coreutils-nohup=y
+          CONFIG_PACKAGE_dnsforwarder=y
+          CONFIG_PACKAGE_dnsproxy=y
+          # CONFIG_PACKAGE_etherwake is not set
+          CONFIG_PACKAGE_filebrowser=y
+          CONFIG_PACKAGE_iptables-mod-ipopt=y
+          CONFIG_PACKAGE_kmod-ifb=y
+          CONFIG_PACKAGE_kmod-inet-diag=y
+          CONFIG_PACKAGE_kmod-ipt-ipopt=y
+          CONFIG_PACKAGE_kmod-ipt-offload=y
+          CONFIG_PACKAGE_kmod-nf-flow=y
+          CONFIG_PACKAGE_kmod-sched-connmark=y
+          CONFIG_PACKAGE_kmod-sched-core=y
+          # CONFIG_PACKAGE_kmod-shortcut-fe is not set
+          # CONFIG_PACKAGE_kmod-shortcut-fe-cm is not set
+          CONFIG_PACKAGE_libcap-bin=y
+          CONFIG_PACKAGE_libcap-bin-capsh-shell="/bin/sh"
+          # CONFIG_PACKAGE_libminiupnpc is not set
+          # CONFIG_PACKAGE_libnatpmp is not set
+          CONFIG_PACKAGE_libpcap=y
+          CONFIG_PACKAGE_libruby=y
+          CONFIG_PACKAGE_libyaml=y
+          CONFIG_PACKAGE_luci-app-adguardhome=m
+          CONFIG_PACKAGE_luci-app-filebrowser=y
+          CONFIG_PACKAGE_luci-app-openclash=y
+          CONFIG_PACKAGE_luci-app-passwall2=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Server=y
+          CONFIG_PACKAGE_luci-app-qos=y
+          CONFIG_PACKAGE_luci-app-ramfree=y
+          CONFIG_PACKAGE_luci-app-smartdns=y
+          CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_IPT2Socks=y
+          CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Libev_Client=y
+          CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Trojan=y
+          CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray_Plugin=y
+          CONFIG_PACKAGE_luci-app-tcpdump=y
+          CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_DNSFORWARDER=y
+          CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_DNSPROXY=y
+          CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_OFFLOADING=y
+          CONFIG_PACKAGE_luci-app-watchcat=y
+          # CONFIG_PACKAGE_luci-app-wol is not set
+          CONFIG_PACKAGE_luci-app-wrtbwmon=y
+          # CONFIG_PACKAGE_luci-app-xlnetacc is not set
+          # CONFIG_PACKAGE_luci-app-zerotier is not set
+          CONFIG_PACKAGE_luci-compat=y
+          CONFIG_PACKAGE_luci-i18n-adguardhome-zh-cn=m
+          CONFIG_PACKAGE_luci-i18n-passwall2-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-qos-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-ramfree-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-smartdns-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-tcpdump-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-watchcat-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-wrtbwmon-zh-cn=y
+          CONFIG_PACKAGE_qos-scripts=y
+          CONFIG_PACKAGE_ruby=y
+          CONFIG_PACKAGE_ruby-bigdecimal=y
+          CONFIG_PACKAGE_ruby-date=y
+          CONFIG_PACKAGE_ruby-digest=y
+          CONFIG_PACKAGE_ruby-enc=y
+          CONFIG_PACKAGE_ruby-forwardable=y
+          CONFIG_PACKAGE_ruby-pstore=y
+          CONFIG_PACKAGE_ruby-psych=y
+          CONFIG_PACKAGE_ruby-stringio=y
+          CONFIG_PACKAGE_ruby-strscan=y
+          CONFIG_PACKAGE_ruby-yaml=y
+          CONFIG_PACKAGE_shadowsocks-libev-ss-local=y
+          CONFIG_PACKAGE_shadowsocks-libev-ss-redir=y
+          CONFIG_PACKAGE_smartdns=y
+          CONFIG_PACKAGE_tc-tiny=y
+          CONFIG_PACKAGE_tcpdump=y
+          CONFIG_PACKAGE_trojan=y
+          CONFIG_PACKAGE_unzip=y
+          CONFIG_PACKAGE_v2ray-geoip=y
+          CONFIG_PACKAGE_v2ray-geosite=y
+          CONFIG_PACKAGE_v2ray-plugin=y
+          CONFIG_PACKAGE_watchcat=y
+          # CONFIG_PACKAGE_wol is not set
+          # CONFIG_PACKAGE_zerotier is not set
+          CONFIG_boost-compile-visibility-hidden=y
+          CONFIG_boost-runtime-shared=y
+          CONFIG_boost-static-and-shared-libs=y
+          CONFIG_boost-variant-release=y
+          EOF
+          #
+          # ===============================================================
+          # 
+          sed -i 's/^[ \t]*//g' ./.config
+          make defconfig
+          # 网络配置信息，将从 zzz-default-settings 文件的第2行开始添加
+          sed -i "2i # network config" ./package/lean/default-settings/files/zzz-default-settings
+          # 默认 IP 地址，旁路由时不会和主路由的 192.168.1.1 冲突
+          sed -i "3i uci set network.lan.ipaddr='10.10.10.252'" ./package/lean/default-settings/files/zzz-default-settings
+          sed -i "4i uci set network.lan.proto='static'" ./package/lean/default-settings/files/zzz-default-settings # 静态 IP
+          sed -i "5i uci set network.lan.type='bridge'" ./package/lean/default-settings/files/zzz-default-settings  # 接口类型：桥接
+          sed -i "6i uci set network.lan.ifname='eth0'" ./package/lean/default-settings/files/zzz-default-settings  # 网络端口：默认 eth0，第一个接口
+          sed -i "7i uci set network.lan.netmask='255.255.255.0'" ./package/lean/default-settings/files/zzz-default-settings    # 子网掩码
+          sed -i "8i uci set network.lan.gateway='10.10.10.253'" ./package/lean/default-settings/files/zzz-default-settings  # 默认网关地址（主路由 IP）
+          sed -i "9i uci set network.lan.dns='10.10.10.253'" ./package/lean/default-settings/files/zzz-default-settings  # 默认上游 DNS 地址
+          sed -i "10i uci commit network\n" ./package/lean/default-settings/files/zzz-default-settings
       - name: Make download
         run: |
-          make download -j8
-          find dl -size -1024c -exec rm -f {} \;
-
+          make download -j8 || make download -j1 V=s
+          rm -rf $(find ./dl/ -size -1024c)
+          df -h
       - name: Compile firmware
         run: |
           make -j$(nproc) || make -j1 V=s
@@ -72,10 +191,8 @@ jobs:
           echo "======================="
           df -h
           echo "======================="
-          du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
-          du -h --max-depth=1 ./build_dir
-          du -h --max-depth=1 ./bin
-
+          du -h ./ --max-depth=1
+          du -h /mnt/openwrt/ --max-depth=1 || true
       - name: Prepare artifact
         run: |
           mkdir -p ./artifact/firmware
@@ -85,7 +202,6 @@ jobs:
           cp -rf $(find ./bin/targets/ -type f) ./artifact/firmware/
           cp -rf $(find ./bin/packages/ -type f -name "*.ipk") ./artifact/package/
           cp -rf $(find ./bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") ./artifact/buildinfo/
-
       - name: Deliver buildinfo
         uses: actions/upload-artifact@v2
         with:
@@ -103,7 +219,6 @@ jobs:
         with:
           name: OpenWrt_firmware
           path: ./bin/targets/
-  
 
       - name: Upload release asset
         if: github.event == 'release'
