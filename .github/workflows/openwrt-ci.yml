@@ -10,13 +10,13 @@
 name: OpenWrt-CI
 
 on:
-#  push:
-#    branches: 
-#      - master
-  watch:
-    types: [started]
+  push:
+    branches: 
+      - master
+#  watch:
+#    types: [started]
   schedule:
-    - cron: 20 6 6,20 * *
+    - cron: 20 6 20 * *
 #  release:
 #    types: [published]
 
