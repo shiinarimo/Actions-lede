@@ -12,7 +12,7 @@ name: OpenWrt-CI
 on:
 #  push:
 #    branches: 
-      - master
+#      - master
 #  watch:
 #    types: [started]
   schedule:
