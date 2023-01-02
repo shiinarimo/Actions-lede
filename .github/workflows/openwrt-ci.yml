@@ -10,8 +10,8 @@
 name: OpenWrt-CI
 
 on:
-  push:
-    branches: 
+#  push:
+#    branches: 
       - master
 #  watch:
 #    types: [started]
