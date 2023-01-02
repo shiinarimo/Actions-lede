@@ -13,8 +13,8 @@ on:
 #  push:
 #    branches: 
 #      - master
-#  watch:
-#    types: [started]
+  watch:
+    types: [started]
   schedule:
     - cron: 20 6 20 * *
 #  release:
@@ -65,7 +65,6 @@ jobs:
           ./scripts/feeds update -a
           # 切换默认主题为argon-mod
           sed -i 's/luci-theme-bootstrap/luci-theme-argon-mod/g' feeds/luci/collections/luci/Makefile
-          ./scripts/feeds update -a
           ./scripts/feeds install -a
       - name: Generate configuration file
         run: |
@@ -84,93 +83,123 @@ jobs:
           CONFIG_TARGET_KERNEL_PARTSIZE=32
           # CONFIG_TARGET_ROOTFS_PARTSIZE=400
           CONFIG_TARGET_x86_64_DEVICE_generic=y
-          CONFIG_PACKAGE_adguardhome=m
-          CONFIG_PACKAGE_bash=y
-          CONFIG_PACKAGE_boost=y
-          CONFIG_PACKAGE_boost-date_time=y
-          CONFIG_PACKAGE_boost-program_options=y
-          CONFIG_PACKAGE_boost-system=y
-          CONFIG_PACKAGE_coreutils-nohup=y
-          CONFIG_PACKAGE_dnsforwarder=y
-          CONFIG_PACKAGE_dnsproxy=y
-          # CONFIG_PACKAGE_etherwake is not set
-          CONFIG_PACKAGE_filebrowser=y
-          CONFIG_PACKAGE_iptables-mod-ipopt=y
-          CONFIG_PACKAGE_kmod-ifb=y
-          CONFIG_PACKAGE_kmod-inet-diag=y
-          CONFIG_PACKAGE_kmod-ipt-ipopt=y
-          CONFIG_PACKAGE_kmod-ipt-offload=y
-          CONFIG_PACKAGE_kmod-nf-flow=y
-          CONFIG_PACKAGE_kmod-sched-connmark=y
-          CONFIG_PACKAGE_kmod-sched-core=y
-          # CONFIG_PACKAGE_kmod-shortcut-fe is not set
-          # CONFIG_PACKAGE_kmod-shortcut-fe-cm is not set
-          CONFIG_PACKAGE_libcap-bin=y
-          CONFIG_PACKAGE_libcap-bin-capsh-shell="/bin/sh"
-          # CONFIG_PACKAGE_libminiupnpc is not set
-          # CONFIG_PACKAGE_libnatpmp is not set
-          CONFIG_PACKAGE_libpcap=y
-          CONFIG_PACKAGE_libruby=y
-          CONFIG_PACKAGE_libyaml=y
-          CONFIG_PACKAGE_luci-theme-argon-mod=y
-          CONFIG_PACKAGE_luci-app-adguardhome=m
-          CONFIG_PACKAGE_luci-app-filebrowser=y
+          
+          #
+          # LuCI
+          # Applications
+          #
+          CONFIG_PACKAGE_luci-app-accesscontrol=y
+          CONFIG_PACKAGE_luci-app-adguardhome=y
+          CONFIG_PACKAGE_luci-app-adguardhome_INCLUDE_binary=y
+          CONFIG_PACKAGE_luci-app-advanced=y
+          CONFIG_PACKAGE_luci-app-arpbind=y
+          CONFIG_PACKAGE_luci-app-autoreboot=y
+          CONFIG_PACKAGE_luci-app-diskman=y
+          CONFIG_PACKAGE_luci-app-diskman_INCLUDE_btrfs_progs=y
+          CONFIG_PACKAGE_luci-app-filetransfer=y
+          CONFIG_PACKAGE_luci-app-firewall=y
+          CONFIG_PACKAGE_luci-app-ipsec-vpnd=y
+          CONFIG_PACKAGE_luci-app-mosdns=y
+          CONFIG_PACKAGE_luci-app-netspeedtest=y
+          CONFIG_PACKAGE_luci-app-nft-qos=y
+          CONFIG_PACKAGE_luci-app-nlbwmon=y
           CONFIG_PACKAGE_luci-app-openclash=y
-          CONFIG_PACKAGE_luci-app-qos=y
-          CONFIG_PACKAGE_luci-app-ramfree=y
+          CONFIG_PACKAGE_iptables-mod-tproxy=y
+          CONFIG_PACKAGE_iptables-mod-extra=y
+          #
+          CONFIG_PACKAGE_luci-app-passwall2=y
+          # Configuration
+          CONFIG_PACKAGE_luci-app-passwall2_Transparent_Proxy=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Brook=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Hysteria=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_NaiveProxy=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Client=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Simple_Obfs=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_V2ray=y
+          CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_V2ray_Plugin=y
+          # end of Configuration
+
+          CONFIG_PACKAGE_luci-app-samba4=y
+          CONFIG_PACKAGE_luci-app-serverchan=y
           CONFIG_PACKAGE_luci-app-smartdns=y
-          CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_IPT2Socks=y
-          CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Libev_Client=y
-          CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Trojan=y
-          CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray_Plugin=y
+          CONFIG_PACKAGE_luci-app-speedtest-web=y
+          CONFIG_PACKAGE_luci-app-sqm=y
           CONFIG_PACKAGE_luci-app-tcpdump=y
+          CONFIG_PACKAGE_luci-app-ttyd=y
+          CONFIG_PACKAGE_luci-app-turboacc=y
+          # CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_OFFLOADING is not set
+          CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_SHORTCUT_FE=y
+          CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_SHORTCUT_FE_CM=y
+          CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_BBR_CCA=y
+          CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_PDNSD=y
           CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_DNSFORWARDER=y
           CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_DNSPROXY=y
-          CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_OFFLOADING=y
+          CONFIG_PACKAGE_luci-app-unblockmusic=y
+          CONFIG_PACKAGE_luci-app-unblockmusic_INCLUDE_UnblockNeteaseMusic_Go=y
+          # CONFIG_PACKAGE_luci-app-unblockmusic_INCLUDE_UnblockNeteaseMusic_NodeJS is not set
+          CONFIG_PACKAGE_luci-app-upnp=y
+          CONFIG_PACKAGE_luci-app-vlmcsd=y
+          CONFIG_PACKAGE_luci-app-vpnbypass=y
+          CONFIG_PACKAGE_luci-app-vsftpd=y
           CONFIG_PACKAGE_luci-app-watchcat=y
-          CONFIG_PACKAGE_luci-app-mosdns=y
-          # CONFIG_PACKAGE_luci-app-wol is not set
-          CONFIG_PACKAGE_luci-app-wrtbwmon=y
-          # CONFIG_PACKAGE_luci-app-xlnetacc is not set
-          # CONFIG_PACKAGE_luci-app-zerotier is not set
-          CONFIG_PACKAGE_luci-compat=y
-          CONFIG_PACKAGE_luci-i18n-adguardhome-zh-cn=m
+          CONFIG_PACKAGE_luci-app-wireguard=y
+          CONFIG_PACKAGE_luci-app-wol=y
+          CONFIG_PACKAGE_luci-app-xlnetacc=y
+          CONFIG_PACKAGE_luci-app-zerotier=y
+          # end of Applications
+
+          #
+          # Themes
+          #
+          CONFIG_PACKAGE_luci-theme-argon=y
+          CONFIG_PACKAGE_luci-theme-argon-mod=y
+
+          #
+          # Libraries
+          #
+          CONFIG_PACKAGE_luci-lib-ip=y
+          CONFIG_PACKAGE_luci-lib-jsonc=y
+          CONFIG_PACKAGE_luci-lib-nixio=y
+          CONFIG_PACKAGE_luci-lib-nixio_openssl=y
+
+          CONFIG_PACKAGE_default-settings=y
+          CONFIG_PACKAGE_luci-i18n-accesscontrol-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-adguardhome-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-arpbind-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-autoreboot-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-base-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-bonding-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-diskman-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-filetransfer-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-firewall-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-ipsec-vpnd-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-mosdns-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-netspeedtest-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-nft-qos-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-nlbwmon-zh-cn=y
           CONFIG_PACKAGE_luci-i18n-passwall2-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-qos-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-ramfree-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-samba4-zh-cn=y
           CONFIG_PACKAGE_luci-i18n-smartdns-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-speedtest-web-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-sqm-zh-cn=y
           CONFIG_PACKAGE_luci-i18n-tcpdump-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-ttyd-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-turboacc-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-unblockmusic-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-upnp-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-vlmcsd-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-vpnbypass-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-vsftpd-zh-cn=y
           CONFIG_PACKAGE_luci-i18n-watchcat-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-wrtbwmon-zh-cn=y
-          CONFIG_PACKAGE_qos-scripts=y
-          CONFIG_PACKAGE_ruby=y
-          CONFIG_PACKAGE_ruby-bigdecimal=y
-          CONFIG_PACKAGE_ruby-date=y
-          CONFIG_PACKAGE_ruby-digest=y
-          CONFIG_PACKAGE_ruby-enc=y
-          CONFIG_PACKAGE_ruby-forwardable=y
-          CONFIG_PACKAGE_ruby-pstore=y
-          CONFIG_PACKAGE_ruby-psych=y
-          CONFIG_PACKAGE_ruby-stringio=y
-          CONFIG_PACKAGE_ruby-strscan=y
-          CONFIG_PACKAGE_ruby-yaml=y
-          CONFIG_PACKAGE_shadowsocks-libev-ss-local=y
-          CONFIG_PACKAGE_shadowsocks-libev-ss-redir=y
-          CONFIG_PACKAGE_smartdns=y
-          CONFIG_PACKAGE_tc-tiny=y
-          CONFIG_PACKAGE_tcpdump=y
-          CONFIG_PACKAGE_trojan=y
-          CONFIG_PACKAGE_unzip=y
-          CONFIG_PACKAGE_v2ray-geoip=y
-          CONFIG_PACKAGE_v2ray-geosite=y
-          CONFIG_PACKAGE_v2ray-plugin=y
-          CONFIG_PACKAGE_watchcat=y
-          # CONFIG_PACKAGE_wol is not set
-          # CONFIG_PACKAGE_zerotier is not set
-          CONFIG_boost-compile-visibility-hidden=y
-          CONFIG_boost-runtime-shared=y
-          CONFIG_boost-static-and-shared-libs=y
-          CONFIG_boost-variant-release=y
+          CONFIG_PACKAGE_luci-i18n-wireguard-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-wol-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-xlnetacc-zh-cn=y
+          CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y
+          # end of LuCI
+          
           EOF
           #
           # ===============================================================
