@@ -156,6 +156,7 @@ jobs:
           #
           CONFIG_PACKAGE_luci-theme-argon=y
           CONFIG_PACKAGE_luci-theme-argon-mod=y
+          CONFIG_PACKAGE_luci-app-argon-config=y
 
           #
           # Libraries
@@ -206,6 +207,8 @@ jobs:
           # 
           sed -i 's/^[ \t]*//g' ./.config
           make defconfig
+          # 修改主机名
+          sed -i 's/OpenWrt/ShiinaWrt/g' ./package/base-files/files/bin/config_generate
           # 网络配置信息，将从 zzz-default-settings 文件的第2行开始添加
           sed -i "2i # network config" ./package/lean/default-settings/files/zzz-default-settings
           # 默认 IP 地址，旁路由时不会和主路由的 192.168.1.1 冲突
