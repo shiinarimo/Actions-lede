@@ -102,6 +102,7 @@ jobs:
           CONFIG_PACKAGE_libpcap=y
           CONFIG_PACKAGE_libruby=y
           CONFIG_PACKAGE_libyaml=y
+          CONFIG_PACKAGE_luci-theme-argon=y
           CONFIG_PACKAGE_luci-app-adguardhome=m
           CONFIG_PACKAGE_luci-app-filebrowser=y
           CONFIG_PACKAGE_luci-app-openclash=y
