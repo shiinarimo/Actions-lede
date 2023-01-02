@@ -16,9 +16,10 @@ on:
 #  watch:
 #    types: [started]
   schedule:
-    - cron: 20 6 20 * *
-#  release:
+    - cron: 20 6 28 * *
+  release:
 #    types: [published]
+    types: [edited]
 
 jobs:
 
