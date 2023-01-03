@@ -159,47 +159,6 @@ jobs:
           CONFIG_PACKAGE_luci-theme-argon-mod=y
           CONFIG_PACKAGE_luci-app-argon-config=y
 
-          #
-          # Libraries
-          #
-          CONFIG_PACKAGE_luci-lib-ip=y
-          CONFIG_PACKAGE_luci-lib-jsonc=y
-          CONFIG_PACKAGE_luci-lib-nixio=y
-          CONFIG_PACKAGE_luci-lib-nixio_openssl=y
-
-          CONFIG_PACKAGE_default-settings=y
-          CONFIG_PACKAGE_luci-i18n-accesscontrol-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-adguardhome-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-arpbind-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-autoreboot-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-base-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-bonding-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-diskman-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-filetransfer-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-firewall-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-ipsec-vpnd-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-mosdns-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-netspeedtest-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-nft-qos-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-nlbwmon-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-passwall2-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-samba4-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-smartdns-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-speedtest-web-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-sqm-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-tcpdump-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-ttyd-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-turboacc-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-unblockmusic-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-upnp-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-vlmcsd-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-vpnbypass-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-vsftpd-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-watchcat-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-wireguard-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-wol-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-xlnetacc-zh-cn=y
-          CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y
           # end of LuCI
           
           EOF
