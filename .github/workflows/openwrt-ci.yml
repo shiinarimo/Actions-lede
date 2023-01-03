@@ -16,7 +16,7 @@ on:
 #  watch:
 #    types: [started]
   schedule:
-    - cron: 20 6 28 * *
+    - cron: 20 9 28 * *
   release:
 #    types: [published]
     types: [edited]
