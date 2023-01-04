@@ -15,11 +15,11 @@ on:
 #      - master
 #  watch:
 #    types: [started]
-  schedule:
-    - cron: 20 9 28 * *
-  release:
+#  schedule:
+#    - cron: 20 9 28 * *
+#  release:
 #    types: [published]
-    types: [edited]
+#    types: [edited]
 
 jobs:
 
